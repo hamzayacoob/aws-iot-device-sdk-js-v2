@@ -126,7 +126,8 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                         device_name: "Group3-Sensor3",
                         message: argv.message,
                         sequence: op_idx + 1,
-                        timestamp: Date.now,
+                        timestamp: Date.now(),
+                        tempdata: tempData(),
                     };
                     const json = JSON.stringify(msg);
                     connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
@@ -139,6 +140,18 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
         }
     });
 }
+
+function tempData() {
+    var result;
+    var percent = Math.random();
+    if (percent < 0.45) {
+        result = -999;
+    } else {
+        result = Math.floor(Math.random() * (80-50) + 50);
+    }
+    return result;
+}
+
 
 async function main(argv: Args) {
     if (argv.verbosity != 'none') {
