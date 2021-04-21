@@ -119,11 +119,10 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
             }
 
             await connection.subscribe(argv.topic, mqtt.QoS.AtLeastOnce, on_publish);
-
-            for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
-                var currentTime = Date.now();
-                var tempData1 = tempData();
-                while (currentTime + 15 > Date.now()) {
+            var currentTime = Date.now();
+            var tempData1 = tempData();
+            while (currentTime + 15 > Date.now()) {
+                for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
                     const publish = async () => {
                         const msg = {
                             device_name: "Group3-Sensor3",
