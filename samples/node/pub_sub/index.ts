@@ -121,7 +121,6 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
             await connection.subscribe(argv.topic, mqtt.QoS.AtLeastOnce, on_publish);
             var currentTime = Date.now();
             var tempData1 = tempData();
-            while (currentTime + 15 > Date.now()) {
                 for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
                     const publish = async () => {
                         const msg = {
@@ -134,7 +133,6 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                     }
                     setTimeout(publish, op_idx * 1000);
                 } 
-            }
         }
         catch (error) {
             reject(error);
