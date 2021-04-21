@@ -121,17 +121,19 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
             await connection.subscribe(argv.topic, mqtt.QoS.AtLeastOnce, on_publish);
 
             for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
-                const publish = async () => {
-                    const msg = {
-                        device_name: "Group3-Sensor3",
-                        timestamp: Date.now(),
-                        tempdata: tempData(),
-                        newData: setInterval(function(){ tempData(); }, 5000),
-                    };
-                    const json = JSON.stringify(msg);
-                    connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
-                }
-                setTimeout(publish, op_idx * 1000);
+                var currentTime = Date.now();
+                while (currentTime + 5 > Date.now()) {
+                    const publish = async () => {
+                        const msg = {
+                            device_name: "Group3-Sensor3",
+                            timestamp: Date.now(),
+                            tempdata: tempData(),
+                        };
+                        const json = JSON.stringify(msg);
+                        connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
+                    }
+                    setTimeout(publish, op_idx * 1000);
+                } 
             }
         }
         catch (error) {
