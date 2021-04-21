@@ -151,11 +151,6 @@ function tempData() {
     return result;
 }
 
-function sendData() {
-
-}
-
-
 async function main(argv: Args) {
     if (argv.verbosity != 'none') {
         const level : io.LogLevel = parseInt(io.LogLevel[argv.verbosity.toUpperCase()]);
