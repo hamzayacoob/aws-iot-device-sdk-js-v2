@@ -122,12 +122,13 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
 
             for (let op_idx = 0; op_idx < argv.count; ++op_idx) {
                 var currentTime = Date.now();
-                while (currentTime + 5 > Date.now()) {
+                var tempData1 = tempData();
+                while (currentTime + 15 > Date.now()) {
                     const publish = async () => {
                         const msg = {
                             device_name: "Group3-Sensor3",
                             timestamp: Date.now(),
-                            tempdata: tempData(),
+                            tempdata: tempData1,
                         };
                         const json = JSON.stringify(msg);
                         connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
