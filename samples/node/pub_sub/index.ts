@@ -124,10 +124,9 @@ async function execute_session(connection: mqtt.MqttClientConnection, argv: Args
                 const publish = async () => {
                     const msg = {
                         device_name: "Group3-Sensor3",
-                        message: argv.message,
-                        sequence: op_idx + 1,
                         timestamp: Date.now(),
                         tempdata: tempData(),
+                        newData: setInterval(function(){ tempData(); }, 5000),
                     };
                     const json = JSON.stringify(msg);
                     connection.publish(argv.topic, json, mqtt.QoS.AtLeastOnce);
@@ -150,6 +149,10 @@ function tempData() {
         result = Math.floor(Math.random() * (80-50) + 50);
     }
     return result;
+}
+
+function sendData() {
+
 }
 
 
